@@ -1,0 +1,15 @@
+Options:
+  #数据库配置
+  Database:
+    #MySQL,SQLite
+    Type: SQLite
+    #若为SQLite不用配置下列项目
+    Host: localhost
+    Port: 3306
+    User: root
+    Password: root
+    Database: minecraft
+Loader:
+  #你可以在这里加入自定义加点菜单文件夹
+  Menu-Files:
+    - ''

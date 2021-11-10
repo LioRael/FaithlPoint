@@ -1,0 +1,91 @@
+Tag: 'point'
+Title: '天赋加点'
+Rows: 6
+Layout:
+  - '########Q'
+  - 'A B C    '
+  - '         '
+  - '         '
+  - '         '
+  - '####*####'
+Item:
+  '#':
+    Name: '-'
+    Material: 'BLACK_STAINED_GLASS_PANE'
+    Type: 'Item'
+  'Q':
+    Name: '退出加点系统'
+    Material: 'RED_STAINED_GLASS_PANE'
+    Type: 'Item'
+    Actions:
+      - '[Close]'
+      - '[Message] &8[&3加点系统&8] 您已退出加点系统'
+#      - '[ActionBar] '
+#      - '[Sound] '
+#      - '[Command] '
+  'A':
+    Name: '&6战士 &c{point}'
+    Material: 'IRON_SWORD'
+    Type: 'Attribute'
+    Enchants:
+      - 'DURABILITY:1'
+    Attributes:
+      物理伤害: 2
+      燃烧几率: 2
+    AttributeTag: '战士'
+    Lore:
+      - '&b| 获得属性:'
+      - '&8| 物理伤害: {Attribute.物理伤害}'
+      - '&8| 燃烧几率: {Attribute.燃烧几率}'
+      - '&b| 每点增加: '
+      - '&8| &c2 &8点物理伤害'
+      - '&8| &c2 &8点燃烧几率'
+      - '&b| 使用说明:'
+      - '&8| 点击&a左键&8消耗点数加点'
+      - '&8| 点击&6右键&8消耗次数洗点'
+      - '&8| 按住&aShift+左键&8一键加点'
+      - '&8| 按住&6Shift+右键&8一键洗点'
+  'B':
+    Name: '&b法师 &c{point}'
+    Material: 'IRON_HOE'
+    Type: 'Attribute'
+    Enchants:
+      - 'DURABILITY:1'
+    Attributes:
+      冰冻几率: 2
+    AttributeTag: '法师'
+    Lore:
+      - '&b| 获得属性:'
+      - '&8| 冰冻几率: {Attribute.冰冻几率}'
+      - '&b| 每点增加: '
+      - '&8| &c2 &8点冰冻几率'
+      - '&b| 使用说明:'
+      - '&8| 点击&a左键&8消耗点数加点'
+      - '&8| 点击&6右键&8消耗次数洗点'
+      - '&8| 按住&aShift+左键&8一键加点'
+      - '&8| 按住&6Shift+右键&8一键洗点'
+  'C':
+    Name: '&a召唤师 &c{point}'
+    Material: 'IRON_SHOVEL'
+    Type: 'Attribute'
+    Enchants:
+      - 'DURABILITY:1'
+    Attributes:
+      护甲穿透: 2
+    AttributeTag: '召唤师'
+    Lore:
+      - '&b| 获得属性:'
+      - '&8| 护甲穿透: {Attribute.护甲穿透}'
+      - '&b| 每点增加: '
+      - '&8| &c2 &8点护甲穿透'
+      - '&b| 使用说明:'
+      - '&8| 点击&a左键&8消耗点数加点'
+      - '&8| 点击&6右键&8消耗次数洗点'
+      - '&8| 按住&aShift+左键&8一键加点'
+      - '&8| 按住&6Shift+右键&8一键洗点'
+  '*':
+    Name: '&8| 个人信息'
+    Material: 'Player_Head'
+    Type: 'Item'
+    Lore:
+      - '&8| 可用点数 &c{availablePoints}'
