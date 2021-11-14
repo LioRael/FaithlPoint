@@ -4,7 +4,7 @@ import com.faithl.bukkit.faithlpoint.api.FaithlPointAPI
 import org.bukkit.entity.Player
 import taboolib.platform.compat.PlaceholderExpansion
 
-object Placeholder: PlaceholderExpansion {
+object PlaceholderHook: PlaceholderExpansion {
     override val identifier: String
         get() = "fpoint"
 

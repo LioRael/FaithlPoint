@@ -4,6 +4,7 @@ import com.faithl.bukkit.faithlpoint.FaithlPoint
 import com.faithl.bukkit.faithlpoint.internal.command.impl.CommandAdd
 import com.faithl.bukkit.faithlpoint.internal.command.impl.CommandOpen
 import com.faithl.bukkit.faithlpoint.internal.command.impl.CommandReload
+import com.faithl.bukkit.faithlpoint.internal.command.impl.CommandTake
 import org.bukkit.command.CommandSender
 import taboolib.common.platform.command.CommandBody
 import taboolib.common.platform.command.CommandHeader
@@ -26,7 +27,7 @@ object CommandHandler {
     val add = CommandAdd.command
 
     @CommandBody
-    val take = CommandAdd.command
+    val take = CommandTake.command
 
     @CommandBody
     val main = mainCommand{

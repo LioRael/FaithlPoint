@@ -26,7 +26,8 @@ taboolib {
             name("homepage").url("https://forum.faithl.com")
         }
         dependencies {
-            name("AttributePlus")
+            name("AttributePlus").optional(true)
+            name("OriginAttribute").optional(true)
             name("Zaphkiel").optional(true)
             name("PlaceholderAPI").optional(true)
         }
@@ -36,6 +37,9 @@ taboolib {
 repositories {
     mavenCentral()
     maven { url = uri("https://repo2s.ptms.ink/repository/maven-releases") }
+    maven { url = uri("https://repo.pcgamingfreaks.at/repository/maven-everything") }
+    maven { url = uri("https://nexus.badbones69.com/repository/maven-releases") }
+    maven { url = uri("https://jitpack.io") }
 }
 
 dependencies {
@@ -52,7 +56,7 @@ tasks.withType<JavaCompile> {
     options.encoding = "UTF-8"
 }
 
-configure<JavaPluginConvention> {
+configure<JavaPluginExtension> {
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
 }
