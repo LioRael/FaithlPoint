@@ -13,7 +13,7 @@ import taboolib.common.reflect.Reflex.Companion.getProperty
 import taboolib.common5.Coerce
 
 
-internal object OriginAttribute {
+internal object OriginAttributeHook {
 
     @SubscribeEvent(bind = "ac.github.oa.api.event.entity.EntityUpdateEvent")
     fun e1(e: OptionalEvent) {
