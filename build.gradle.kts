@@ -1,7 +1,7 @@
 plugins {
     java
     id("io.izzel.taboolib") version "1.31"
-    id("org.jetbrains.kotlin.jvm") version "1.5.31"
+    id("org.jetbrains.kotlin.jvm") version "1.6.0"
 }
 
 taboolib {
@@ -17,7 +17,7 @@ taboolib {
     install("module-database")
     install("expansion-player-database")
     classifier = null
-    version = "6.0.4-5"
+    version = "6.0.6-14"
     description {
         contributors {
             name("Leosouthey")
@@ -43,8 +43,9 @@ repositories {
 }
 
 dependencies {
-    implementation("ink.ptms.core:v11701:11701:mapped")
-    implementation("ink.ptms.core:v11701:11701:universal")
+    implementation("ink.ptms.core:v11800:11800:api")
+    implementation("ink.ptms.core:v11800:11800:mapped")
+    implementation("ink.ptms.core:v11800:11800:universal")
     compileOnly("public:AttributePlus:3.2.1")
 //    compileOnly("ink.ptms:Zaphkiel:1.7.4")
     compileOnly("com.alibaba:fastjson:1.2.78")

@@ -7,7 +7,6 @@ import com.faithl.bukkit.faithlpoint.internal.point.Point
 import com.faithl.bukkit.faithlpoint.util.JsonUtil
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
-import taboolib.common.TabooLibCommon.setStopped
 import taboolib.common.env.RuntimeDependency
 import taboolib.common.io.newFile
 import taboolib.common.platform.Plugin
@@ -17,7 +16,7 @@ import taboolib.expansion.setupDataContainer
 import taboolib.expansion.setupPlayerDatabase
 import taboolib.library.configuration.ConfigurationSection
 import taboolib.module.configuration.Config
-import taboolib.module.configuration.SecuredFile
+import taboolib.module.configuration.Configuration
 import taboolib.module.lang.sendLang
 import taboolib.module.metrics.Metrics
 import taboolib.module.ui.receptacle.Receptacle
@@ -28,7 +27,7 @@ import taboolib.platform.util.sendLang
 object FaithlPoint: Plugin() {
 
     @Config("settings.yml", migrate = true,autoReload = true)
-    lateinit var setting: SecuredFile
+    lateinit var setting: Configuration
 
     val plugin by lazy { BukkitPlugin.getInstance() }
 

@@ -6,10 +6,7 @@ import com.faithl.bukkit.faithlpoint.internal.command.impl.CommandOpen
 import com.faithl.bukkit.faithlpoint.internal.command.impl.CommandReload
 import com.faithl.bukkit.faithlpoint.internal.command.impl.CommandTake
 import org.bukkit.command.CommandSender
-import taboolib.common.platform.command.CommandBody
-import taboolib.common.platform.command.CommandHeader
-import taboolib.common.platform.command.mainCommand
-import taboolib.common.platform.command.subCommand
+import taboolib.common.platform.command.*
 import taboolib.common.platform.function.adaptCommandSender
 import taboolib.module.chat.TellrawJson
 import taboolib.platform.util.asLangText
@@ -20,7 +17,7 @@ object CommandHandler {
     @CommandBody
     val reload = CommandReload.command
 
-    @CommandBody
+    @CommandBody(permissionDefault = PermissionDefault.TRUE)
     val open = CommandOpen.command
 
     @CommandBody

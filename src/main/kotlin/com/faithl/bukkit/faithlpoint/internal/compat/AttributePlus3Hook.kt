@@ -32,7 +32,7 @@ internal object AttributePlus3Hook {
             val map = HashMap<String, Array<Number>>()
             attributes.forEach { (key, value) ->
                 value.getKeys(false).forEach {
-                    val args = value.getString(it).split("-")
+                    val args = value.getString(it)!!.split("-")
                     map[it] = arrayOf(Coerce.toDouble(args[0]) * points[key]!!, Coerce.toDouble(args.getOrElse(1) { args[0] }) * points[key]!!)
                 }
             }

@@ -6,7 +6,7 @@ import com.faithl.bukkit.faithlpoint.internal.display.PointMenu
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import taboolib.common.platform.function.releaseResourceFile
-import taboolib.library.configuration.YamlConfiguration
+import taboolib.module.configuration.Configuration
 import taboolib.platform.util.sendLang
 import java.io.File
 
@@ -35,9 +35,9 @@ object Loader {
         }
         val serializingTime = System.currentTimeMillis()
         tasks.forEach {
-            val conf = YamlConfiguration.loadConfiguration(it)
+            val conf = Configuration.loadFromFile(it)
             val tag = conf.getString("Tag")
-            if (FaithlPointAPI.getMenu(tag) == null)
+            if (FaithlPointAPI.getMenu(tag!!) == null)
                 PointMenu(conf)
         }
         sender.sendLang("Menu-Loader-Loaded", FaithlPoint.menus.size, System.currentTimeMillis() - serializingTime)

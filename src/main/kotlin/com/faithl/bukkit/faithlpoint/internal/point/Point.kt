@@ -21,7 +21,7 @@ class Point(val player:Player) {
         if (attributes.isEmpty()){
             FaithlPoint.playerPoints.remove(this)
         }
-        FaithlPoint.attributes.forEach {
+        attributes.forEach {
             points[it.key] = player.getPoints(it.key)
         }
     }

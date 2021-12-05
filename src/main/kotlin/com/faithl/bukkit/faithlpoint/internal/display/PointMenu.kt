@@ -1,15 +1,18 @@
 package com.faithl.bukkit.faithlpoint.internal.display
 
+import ac.github.oa.api.OriginAttributeAPI
+import ac.github.oa.api.event.entity.EntityUpdateEvent
+import ac.github.oa.internal.base.enums.PriorityEnum
 import com.faithl.bukkit.faithlpoint.FaithlPoint
-import com.faithl.bukkit.faithlpoint.FaithlPoint.attributes
 import com.faithl.bukkit.faithlpoint.api.FaithlPointAPI
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
-import taboolib.common.platform.Awake
+import org.serverct.ersha.jd.event.AttrAttributeUpdateEvent
 import taboolib.common.platform.function.adaptPlayer
 import taboolib.common.platform.function.console
+import taboolib.common.util.Version
 import taboolib.common5.Coerce
 import taboolib.library.configuration.ConfigurationSection
 import taboolib.library.xseries.XEnchantment
@@ -32,9 +35,10 @@ class PointMenu(private val conf: ConfigurationSection){
     val tag:String? = conf.getString("Tag")
     val title:String? = conf.getString("Title")
     private val rows:Int = conf.getInt("Rows")
-    private val layout:MutableList<String>? = conf.getStringList("Layout")
+    private val layout:MutableList<String> = conf.getStringList("Layout").toMutableList()
     var slots = ArrayList<List<Char>>()
     var items = HashMap<Char, ItemStack>()
+    val permission:String = conf.getString("Permission") ?: "default"
 
     fun buildMenu(player: Player) = buildReceptacle(title?:"&b加点系统".colored(),rows) {
         slots.clear()
@@ -50,7 +54,7 @@ class PointMenu(private val conf: ConfigurationSection){
             items.forEach {
                 if (event.itemStack == it.value){
                     val type = conf.getString("Item.${it.key}.Type")
-                    val actions = conf.getStringList("Item.${it.key}.Actions")
+                    val actions = conf.getStringList("Item.${it.key}.Actions").toMutableList()
                     if (type == "Item"){
                         refresh(event.slot)
                         val map = mutableMapOf(
@@ -64,18 +68,18 @@ class PointMenu(private val conf: ConfigurationSection){
                         val tag = conf.getString("Item.${it.key}.AttributeTag")
                         when (event.receptacleClickType) {
                             LEFT -> {
-                                FaithlPointAPI.getPoint(player).addAttribute(tag,1)
+                                FaithlPointAPI.getPoint(player).addAttribute(tag!!,1)
                             }
                             RIGHT -> {
-                                FaithlPointAPI.getPoint(player).takeAttribute(tag,1)
+                                FaithlPointAPI.getPoint(player).takeAttribute(tag!!,1)
                             }
                             SHIFT_LEFT -> {
-                                FaithlPointAPI.getPoint(player).addAttribute(tag,FaithlPointAPI.getPoint(player).getAvailablePoints())
+                                FaithlPointAPI.getPoint(player).addAttribute(tag!!,FaithlPointAPI.getPoint(player).getAvailablePoints())
                             }
                             SHIFT_RIGHT -> {
-                                FaithlPointAPI.getPoint(player).takeAttribute(tag, FaithlPointAPI.getPoint(player).getPoints(tag)!!)
+                                FaithlPointAPI.getPoint(player).takeAttribute(tag!!, FaithlPointAPI.getPoint(player).getPoints(tag)!!)
                             }
-                            else -> FaithlPointAPI.getPoint(player).addAttribute(tag,1)
+                            else -> FaithlPointAPI.getPoint(player).addAttribute(tag!!,1)
                         }
                         val map = mutableMapOf(
                             "{totalPoints}" to Coerce.toString(FaithlPointAPI.getPoint(player).totalPoints),
@@ -83,7 +87,7 @@ class PointMenu(private val conf: ConfigurationSection){
                             "{tag}" to conf.getString("Item.${it.key}.AttributeTag"),
                             "{take}" to conf.getInt("Item.${it.key}.Take").toString(),
                             "{player}" to player.name,
-                            "{point}" to Coerce.toString(FaithlPointAPI.getPoint(player).getPoints(conf.getString("Item.${it.key}.AttributeTag")) ?: "0")
+                            "{point}" to Coerce.toString(FaithlPointAPI.getPoint(player).getPoints(conf.getString("Item.${it.key}.AttributeTag")!!) ?: "0")
                         )
                         doActions(actions,map,player,it.key.toString())
                     }
@@ -95,10 +99,21 @@ class PointMenu(private val conf: ConfigurationSection){
         onClose { player, _ ->
             player.updateInventory()
             FaithlPoint.playerReceptacle[player] = null
+            if (Bukkit.getPluginManager().isPluginEnabled("AttributePlus")){
+                if (Version(Bukkit.getPluginManager().getPlugin("AttributePlus")!!.description.version) >= Version("3.0.0")){
+//                    AttrUpdateAttributeEvent.After(AttributeAPI.getAttrData(player))
+                }else{
+                    AttrAttributeUpdateEvent(player,org.serverct.ersha.jd.AttributeAPI.getAttrData(player))
+                }
+            }
+            if (Bukkit.getPluginManager().isPluginEnabled("OriginAttribute")){
+                val event = EntityUpdateEvent(player,OriginAttributeAPI.getAttributeData(player), PriorityEnum.POST)
+                event.call()
+            }
         }
     }
 
-    private fun doActions(actions:MutableList<String>,map: MutableMap<String, String>,player: Player,item:String) {
+    private fun doActions(actions:MutableList<String>, map: MutableMap<String, String?>, player: Player, item:String) {
         for (str in listReplace(actions,map,player,item)){
             val chain = str.split("]".toRegex(),2).toMutableList()
             val type = chain[0]
@@ -158,16 +173,16 @@ class PointMenu(private val conf: ConfigurationSection){
         set(Coerce.toChar(item),buildItem(material){
             val type = conf.getString("Item.${item}.Type")
             if (type == "Attribute") {
-                FaithlPoint.attributes[conf.getString("Item.${item}.AttributeTag")] = conf.getConfigurationSection("Item.${item}.Attributes")
+                FaithlPoint.attributes[conf.getString("Item.${item}.AttributeTag")!!] = conf.getConfigurationSection("Item.${item}.Attributes")!!
                 val map = mutableMapOf(
                     "{totalPoints}" to Coerce.toString(FaithlPointAPI.getPoint(player).totalPoints),
                     "{availablePoints}" to Coerce.toString(FaithlPointAPI.getPoint(player).getAvailablePoints()),
                     "{tag}" to conf.getString("Item.${item}.AttributeTag"),
                     "{take}" to conf.getInt("Item.${item}.Take").toString(),
                     "{player}" to player.name,
-                    "{point}" to Coerce.toString(FaithlPointAPI.getPoint(player).getPoints(conf.getString("Item.${item}.AttributeTag")) ?: "0")
+                    "{point}" to Coerce.toString(FaithlPointAPI.getPoint(player).getPoints(conf.getString("Item.${item}.AttributeTag")!!) ?: "0")
                 )
-                name = strReplace(conf.getString("Item.${item}.Name").colored(),map,player)
+                name = strReplace(conf.getString("Item.${item}.Name")!!.colored(),map,player)
                 for (s in listReplace(conf.getStringList("Item.${item}.Lore").colored(),map,player,item)) {
                     lore += s.colored()
                 }
@@ -178,7 +193,7 @@ class PointMenu(private val conf: ConfigurationSection){
                     "{totalPoints}" to Coerce.toString(FaithlPointAPI.getPoint(player).totalPoints),
                     "{availablePoints}" to Coerce.toString(FaithlPointAPI.getPoint(player).getAvailablePoints())
                 )
-                name = strReplace(conf.getString("Item.${item}.Name").colored(),map,player)
+                name = strReplace(conf.getString("Item.${item}.Name")!!.colored(),map,player)
                 for (s in listReplace(conf.getStringList("Item.${item}.Lore").colored(),map,player,item)) {
                     lore += s.colored()
                 }
@@ -192,12 +207,12 @@ class PointMenu(private val conf: ConfigurationSection){
         return true
     }
 
-    private fun listReplace(lore: List<String>,map: MutableMap<String,String>,player: Player,item: String):List<String>{
+    private fun listReplace(lore: List<String>, map: MutableMap<String, String?>, player: Player, item: String):List<String>{
         val listReplaced = mutableListOf<String>()
         for (str in lore){
             var strReplaced = str
             map.forEach {
-                strReplaced = strReplaced.replace(it.key,it.value,ignoreCase = true)
+                strReplaced = strReplaced.replace(it.key, it.value!!,ignoreCase = true)
             }
             val attrs = conf.getConfigurationSection("Item.${item}.Attributes")
             if (attrs == null){
@@ -206,7 +221,9 @@ class PointMenu(private val conf: ConfigurationSection){
             }
             for (attr in attrs.getKeys(false)){
                 if (str.contains("{Attribute.$attr}",true)) {
-                    strReplaced = strReplaced.replace("{Attribute.$attr}",((conf.getString("Item.${item}.Attributes.$attr").toIntOrNull() ?: 0) * FaithlPointAPI.getPoint(player).getPoints(conf.getString("Item.${item}.AttributeTag"))!!).toString(),true)
+                    strReplaced = strReplaced.replace("{Attribute.$attr}",((conf.getString("Item.${item}.Attributes.$attr")
+                        ?.toIntOrNull()
+                        ?: 0) * FaithlPointAPI.getPoint(player).getPoints(conf.getString("Item.${item}.AttributeTag")!!)!!).toString(),true)
                 }
             }
             listReplaced.add(strReplaced)
@@ -214,18 +231,15 @@ class PointMenu(private val conf: ConfigurationSection){
         return listReplaced.replacePlaceholder(player)
     }
 
-    private fun strReplace(name: String,map: MutableMap<String,String>,player: Player):String{
+    private fun strReplace(name: String, map: MutableMap<String, String?>, player: Player):String{
         var strReplaced = name
         map.forEach {
-            strReplaced = strReplaced.replace(it.key,it.value,ignoreCase = true)
+            strReplaced = strReplaced.replace(it.key, it.value!!,ignoreCase = true)
         }
         return strReplaced.replacePlaceholder(player)
     }
 
     init {
         FaithlPoint.menus.add(this)
-        requireNotNull(layout){
-            FaithlPoint.menus.remove(this)
-        }
     }
 }

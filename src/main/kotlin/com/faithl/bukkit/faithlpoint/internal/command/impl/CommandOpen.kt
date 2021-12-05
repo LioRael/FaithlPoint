@@ -24,7 +24,10 @@ object CommandOpen {
                 execute<ProxyCommandSender> { sender, context, argument ->
                     val player = Bukkit.getPlayerExact(context.argument(-1)) ?: return@execute
                     val menu = FaithlPointAPI.getMenu(argument)
-                    menu!!.buildMenu(player).open(player)
+                    if (menu!!.permission != "default" && !player.hasPermission(menu.permission)){
+                        return@execute
+                    }
+                    menu.buildMenu(player).open(player)
                     sender.sendLang("Command-Open-Info")
                 }
             }
