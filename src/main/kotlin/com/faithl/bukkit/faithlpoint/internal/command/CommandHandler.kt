@@ -9,24 +9,25 @@ import org.bukkit.command.CommandSender
 import taboolib.common.platform.command.*
 import taboolib.common.platform.function.adaptCommandSender
 import taboolib.module.chat.TellrawJson
+import taboolib.platform.compat.VaultService.permission
 import taboolib.platform.util.asLangText
 
 
-@CommandHeader(name = "faithlpoint", aliases = ["fpoint","point"], permission = "FaithlPoint.access")
+@CommandHeader(name = "faithlpoint", aliases = ["fpoint","point"], permission = "faithlpoint.access")
 object CommandHandler {
-    @CommandBody
+    @CommandBody(permission = "faithlpoint.reload")
     val reload = CommandReload.command
 
     @CommandBody(permissionDefault = PermissionDefault.TRUE)
     val open = CommandOpen.command
 
-    @CommandBody
+    @CommandBody(permission = "faithlpoint.add")
     val add = CommandAdd.command
 
-    @CommandBody
+    @CommandBody(permission = "faithlpoint.take")
     val take = CommandTake.command
 
-    @CommandBody
+    @CommandBody(permission = "faithlpoint.access")
     val main = mainCommand{
         execute<CommandSender> { sender, _, argument ->
             if (argument.isEmpty()) {
@@ -45,7 +46,7 @@ object CommandHandler {
         }
     }
 
-    @CommandBody
+    @CommandBody(permission = "faithlpoint.access")
     val help = subCommand{
         execute<CommandSender> { sender, _, _ ->
             generateMainHelper(sender)

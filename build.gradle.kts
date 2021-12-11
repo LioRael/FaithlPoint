@@ -17,7 +17,7 @@ taboolib {
     install("module-database")
     install("expansion-player-database")
     classifier = null
-    version = "6.0.6-14"
+    version = "6.0.6-23"
     description {
         contributors {
             name("Leosouthey")

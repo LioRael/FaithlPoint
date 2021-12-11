@@ -38,12 +38,12 @@ class PointMenu(private val conf: ConfigurationSection){
     private val layout:MutableList<String> = conf.getStringList("Layout").toMutableList()
     var slots = ArrayList<List<Char>>()
     var items = HashMap<Char, ItemStack>()
-    val permission:String = conf.getString("Permission") ?: "default"
+    val permission: String? = conf.getString("Permission")
 
     fun buildMenu(player: Player) = buildReceptacle(title?:"&b加点系统".colored(),rows) {
         slots.clear()
         items.clear()
-        layout?.forEach { slot ->
+        layout.forEach { slot ->
             slots.addAll(listOf(slot.toCharArray().toList()))
         }
         build(this,player)
@@ -123,7 +123,7 @@ class PointMenu(private val conf: ConfigurationSection){
             if (type.contains("Title") || type.contains("T"))
                 player.sendTitle(action.split("||")[0],action.split("||")[1],5,20,5)
             if (type.contains("Sound") || type.contains("S"))
-                XSound.parse(player,player.location,action,true)
+                XSound.play(player,action)
             if (type.contains("Message") || type.contains("M"))
                 player.sendMessage(action)
             if (type.contains("Command") || type.contains("C"))
