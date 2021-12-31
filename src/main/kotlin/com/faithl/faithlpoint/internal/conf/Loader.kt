@@ -1,8 +1,8 @@
-package com.faithl.bukkit.faithlpoint.internal.conf
+package com.faithl.faithlpoint.internal.conf
 
-import com.faithl.bukkit.faithlpoint.FaithlPoint
-import com.faithl.bukkit.faithlpoint.api.FaithlPointAPI
-import com.faithl.bukkit.faithlpoint.internal.display.PointMenu
+import com.faithl.faithlpoint.FaithlPoint
+import com.faithl.faithlpoint.api.FaithlPointAPI
+import com.faithl.faithlpoint.internal.display.PointMenu
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import taboolib.common.platform.function.releaseResourceFile
@@ -29,7 +29,7 @@ object Loader {
         }
         val tasks = mutableListOf<File>().also { tasks ->
             files.forEach { file ->
-                if (!tasks.any { it.nameWithoutExtension == file.nameWithoutExtension } && file.extension=="yml")
+                if (!tasks.any { it.nameWithoutExtension == file.nameWithoutExtension } && file.extension == "yml")
                     tasks.add(file)
             }
         }

@@ -1,23 +1,23 @@
-package com.faithl.bukkit.faithlpoint.internal.listener
+package com.faithl.faithlpoint.internal.listener
 
-import com.faithl.bukkit.faithlpoint.FaithlPoint
-import com.faithl.bukkit.faithlpoint.api.FaithlPointAPI
+import com.faithl.faithlpoint.FaithlPoint
+import com.faithl.faithlpoint.api.FaithlPointAPI
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerKickEvent
 import org.bukkit.event.player.PlayerQuitEvent
 import taboolib.common.platform.event.SubscribeEvent
 import taboolib.expansion.releaseDataContainer
 import taboolib.expansion.setupDataContainer
-import taboolib.module.database.EmptyTask.forEach
 
-object DatabaseListener{
+object DatabaseListener {
 
     @SubscribeEvent
     fun e(e: PlayerJoinEvent) {
         e.player.setupDataContainer()
-        FaithlPoint.menus.forEach{
+        FaithlPoint.menus.forEach {
             it.buildMenu(e.player)
         }
+        FaithlPointAPI.updateAttribute(e.player)
     }
 
     @SubscribeEvent

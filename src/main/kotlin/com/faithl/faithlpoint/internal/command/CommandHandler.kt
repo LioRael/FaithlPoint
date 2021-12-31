@@ -1,19 +1,18 @@
-package com.faithl.bukkit.faithlpoint.internal.command
+package com.faithl.faithlpoint.internal.command
 
-import com.faithl.bukkit.faithlpoint.FaithlPoint
-import com.faithl.bukkit.faithlpoint.internal.command.impl.CommandAdd
-import com.faithl.bukkit.faithlpoint.internal.command.impl.CommandOpen
-import com.faithl.bukkit.faithlpoint.internal.command.impl.CommandReload
-import com.faithl.bukkit.faithlpoint.internal.command.impl.CommandTake
+import com.faithl.faithlpoint.FaithlPoint
+import com.faithl.faithlpoint.internal.command.impl.CommandAdd
+import com.faithl.faithlpoint.internal.command.impl.CommandOpen
+import com.faithl.faithlpoint.internal.command.impl.CommandReload
+import com.faithl.faithlpoint.internal.command.impl.CommandTake
 import org.bukkit.command.CommandSender
 import taboolib.common.platform.command.*
 import taboolib.common.platform.function.adaptCommandSender
 import taboolib.module.chat.TellrawJson
-import taboolib.platform.compat.VaultService.permission
 import taboolib.platform.util.asLangText
 
 
-@CommandHeader(name = "faithlpoint", aliases = ["fpoint","point"], permission = "faithlpoint.access")
+@CommandHeader(name = "faithlpoint", aliases = ["fpoint", "point"], permission = "faithlpoint.access")
 object CommandHandler {
     @CommandBody(permission = "faithlpoint.reload")
     val reload = CommandReload.command
@@ -28,7 +27,7 @@ object CommandHandler {
     val take = CommandTake.command
 
     @CommandBody(permission = "faithlpoint.access")
-    val main = mainCommand{
+    val main = mainCommand {
         execute<CommandSender> { sender, _, argument ->
             if (argument.isEmpty()) {
                 generateMainHelper(sender)
@@ -47,22 +46,24 @@ object CommandHandler {
     }
 
     @CommandBody(permission = "faithlpoint.access")
-    val help = subCommand{
+    val help = subCommand {
         execute<CommandSender> { sender, _, _ ->
             generateMainHelper(sender)
         }
     }
 
-    private fun generateMainHelper(sender: CommandSender){
+    private fun generateMainHelper(sender: CommandSender) {
         val proxySender = adaptCommandSender(sender)
         proxySender.sendMessage("")
         TellrawJson()
             .append("  ").append("§3FaithlPoint")
             .hoverText("§7FaithlPoint is modern and advanced Minecraft point-plugin")
             .append(" ").append("§f${FaithlPoint.plugin.description.version}")
-            .hoverText("""
+            .hoverText(
+                """
                 §7Plugin version: §2${FaithlPoint.plugin.description.version}
-            """.trimIndent()).sendTo(proxySender)
+            """.trimIndent()
+            ).sendTo(proxySender)
         proxySender.sendMessage("")
         TellrawJson()
             .append("  §7${sender.asLangText("Command-Help-Type")}: ").append("§f/FaithlPoint §8[...]")

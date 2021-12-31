@@ -1,4 +1,4 @@
-package com.faithl.bukkit.faithlpoint.util
+package com.faithl.faithlpoint.util
 
 import org.bukkit.entity.Player
 import taboolib.common5.Coerce
@@ -13,10 +13,10 @@ fun Player.getTotalPoints(): Int {
     return Coerce.toInteger(getDataContainer()["Points_Total"])
 }
 
-fun Player.getPoints(type:String): Int {
+fun Player.getPoints(type: String): Int {
     releaseDataContainer()
     setupDataContainer()
-    if (getDataContainer()[type]==null){
+    if (getDataContainer()[type] == null) {
         getDataContainer()[type] = 0
     }
     return Coerce.toInteger(getDataContainer()[type])
@@ -25,12 +25,12 @@ fun Player.getPoints(type:String): Int {
 fun Player.setTotalPoints(totalPoints: Int) {
     releaseDataContainer()
     setupDataContainer()
-    getDataContainer()["Points_Total"]=totalPoints
+    getDataContainer()["Points_Total"] = totalPoints
 }
 
-fun Player.setPoints(type:String,value:Int) {
+fun Player.setPoints(type: String, value: Int) {
     releaseDataContainer()
     setupDataContainer()
-    getDataContainer()[type]=value
+    getDataContainer()[type] = value
 }
 

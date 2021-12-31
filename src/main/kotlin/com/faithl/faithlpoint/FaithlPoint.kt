@@ -1,10 +1,11 @@
-package com.faithl.bukkit.faithlpoint
+package com.faithl.faithlpoint
 
 import com.alibaba.fastjson.JSONObject
-import com.faithl.bukkit.faithlpoint.internal.conf.Loader
-import com.faithl.bukkit.faithlpoint.internal.display.PointMenu
-import com.faithl.bukkit.faithlpoint.internal.point.Point
-import com.faithl.bukkit.faithlpoint.util.JsonUtil
+import com.faithl.faithlpoint.internal.conf.Loader
+import com.faithl.faithlpoint.internal.display.PointMenu
+import com.faithl.faithlpoint.internal.point.Point
+import com.faithl.faithlpoint.util.JsonUtil
+import com.faithl.milim.MilimAPI
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import taboolib.common.env.RuntimeDependency
@@ -23,10 +24,10 @@ import taboolib.module.ui.receptacle.Receptacle
 import taboolib.platform.BukkitPlugin
 import taboolib.platform.util.sendLang
 
-@RuntimeDependency(value = "com.alibaba:fastjson:1.2.78")
-object FaithlPoint: Plugin() {
+@RuntimeDependency(value = "com.alibaba:fastjson:1.2.79")
+object FaithlPoint : Plugin() {
 
-    @Config("settings.yml", migrate = true,autoReload = true)
+    @Config("settings.yml", migrate = true, autoReload = true)
     lateinit var setting: Configuration
 
     val plugin by lazy { BukkitPlugin.getInstance() }
@@ -40,6 +41,7 @@ object FaithlPoint: Plugin() {
     override fun onEnable() {
         Loader.loadLevels()
         init()
+        MilimAPI.init("AttributePlus")
     }
 
     fun init() {
@@ -77,23 +79,28 @@ object FaithlPoint: Plugin() {
      *
      * @param sender
      */
-    fun checkUpdate(sender: Player? = null){
-        if(!setting.getBoolean("Options.Check-Update"))
+    fun checkUpdate(sender: Player? = null) {
+        if (!setting.getBoolean("Options.Check-Update"))
             return
         val json = JsonUtil.loadJson("https://api.faithl.com/version.php?plugin=FaithlPoint")
         val `object` = JSONObject.parseObject(json)
         val version = Version(`object`.getString("version"))
-        if (version > Version(pluginVersion)){
+        if (version > Version(pluginVersion)) {
             isOutDate = true
             if (sender == null)
-                console().sendLang("Plugin-Update",pluginVersion,version)
+                console().sendLang("Plugin-Update", pluginVersion, version)
             else
-                sender.sendLang("Plugin-Update",pluginVersion,version.source,"https://www.mcbbs.net/thread-1275680-1-1.html")
+                sender.sendLang(
+                    "Plugin-Update",
+                    pluginVersion,
+                    version.source,
+                    "https://www.mcbbs.net/thread-1275680-1-1.html"
+                )
         }
     }
 
-    var playerPoints:MutableList<Point> = mutableListOf()
+    var playerPoints: MutableList<Point> = mutableListOf()
     var attributes = mutableMapOf<String, ConfigurationSection>()
-    var menus:MutableList<PointMenu> = mutableListOf()
+    var menus: MutableList<PointMenu> = mutableListOf()
     var playerReceptacle = mutableMapOf<Player, Receptacle?>()
 }

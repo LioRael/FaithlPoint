@@ -1,4 +1,4 @@
-package com.faithl.bukkit.faithlpoint.util
+package com.faithl.faithlpoint.util
 
 import java.io.BufferedReader
 import java.io.IOException
@@ -8,14 +8,14 @@ import java.net.URL
 import java.net.URLConnection
 
 object JsonUtil {
-    fun loadJson(url: String?): String{
+    fun loadJson(url: String?): String {
         val json = StringBuilder()
         try {
             val urlObject = URL(url)
             val uc: URLConnection = urlObject.openConnection()
             val `in` = BufferedReader(InputStreamReader(uc.getInputStream()))
-            var inputLine:String?
-            while (`in`.readLine().also {inputLine = it } != null) {
+            var inputLine: String?
+            while (`in`.readLine().also { inputLine = it } != null) {
                 json.append(inputLine)
             }
             `in`.close()

@@ -1,11 +1,8 @@
-package com.faithl.bukkit.faithlpoint.internal.command.impl
+package com.faithl.faithlpoint.internal.command.impl
 
-import com.faithl.bukkit.faithlpoint.FaithlPoint
-import com.faithl.bukkit.faithlpoint.api.FaithlPointAPI
-import com.faithl.bukkit.faithlpoint.internal.display.PointMenu
+import com.faithl.faithlpoint.api.FaithlPointAPI
 import org.bukkit.Bukkit
 import taboolib.common.platform.ProxyCommandSender
-import taboolib.common.platform.ProxyPlayer
 import taboolib.common.platform.command.subCommand
 import taboolib.common.platform.function.onlinePlayers
 import taboolib.common5.Coerce

@@ -1,12 +1,9 @@
-package com.faithl.bukkit.faithlpoint.internal.command.impl
+package com.faithl.faithlpoint.internal.command.impl
 
-import com.faithl.bukkit.faithlpoint.FaithlPoint
-import com.faithl.bukkit.faithlpoint.FaithlPoint.attributes
-import com.faithl.bukkit.faithlpoint.api.FaithlPointAPI
-import com.faithl.bukkit.faithlpoint.internal.display.PointMenu
+import com.faithl.faithlpoint.FaithlPoint
+import com.faithl.faithlpoint.api.FaithlPointAPI
 import org.bukkit.Bukkit
 import taboolib.common.platform.ProxyCommandSender
-import taboolib.common.platform.ProxyPlayer
 import taboolib.common.platform.command.subCommand
 import taboolib.common.platform.function.onlinePlayers
 import taboolib.common5.Coerce
@@ -21,15 +18,15 @@ object CommandTake {
             }
             execute<ProxyCommandSender> { sender, _, argument ->
                 val player = Bukkit.getPlayerExact(sender.name) ?: return@execute
-                if (FaithlPointAPI.getPoint(player).getAvailablePoints() >= Coerce.toInteger(argument)){
+                if (FaithlPointAPI.getPoint(player).getAvailablePoints() >= Coerce.toInteger(argument)) {
                     FaithlPointAPI.getPoint(player).totalPoints -= Coerce.toInteger(argument)
-                    player.sendLang("Point-Took",argument)
-                }else{
-                    for (attr in FaithlPoint.attributes){
-                        if (FaithlPointAPI.getPoint(player).getPoints(attr.key)!! >= Coerce.toInteger(argument)){
+                    player.sendLang("Point-Took", argument)
+                } else {
+                    for (attr in FaithlPoint.attributes) {
+                        if (FaithlPointAPI.getPoint(player).getPoints(attr.key)!! >= Coerce.toInteger(argument)) {
                             FaithlPointAPI.getPoint(player).takeAttribute(attr.key, Coerce.toInteger(argument))
                             FaithlPointAPI.getPoint(player).totalPoints -= Coerce.toInteger(argument)
-                            player.sendLang("Point-Took-From-Attr",argument)
+                            player.sendLang("Point-Took-From-Attr", argument)
                             break
                         }
                     }
@@ -41,20 +38,20 @@ object CommandTake {
                 }
                 execute<ProxyCommandSender> { sender, context, argument ->
                     val player = Bukkit.getPlayerExact(context.argument(-1)) ?: return@execute
-                    if (FaithlPointAPI.getPoint(player).getAvailablePoints() >= Coerce.toInteger(argument)){
+                    if (FaithlPointAPI.getPoint(player).getAvailablePoints() >= Coerce.toInteger(argument)) {
                         FaithlPointAPI.getPoint(player).totalPoints -= Coerce.toInteger(argument)
-                        player.sendLang("Point-Took",argument)
-                    }else{
-                        for (attr in FaithlPoint.attributes){
-                            if (FaithlPointAPI.getPoint(player).getPoints(attr.key)!! >= Coerce.toInteger(argument)){
+                        player.sendLang("Point-Took", argument)
+                    } else {
+                        for (attr in FaithlPoint.attributes) {
+                            if (FaithlPointAPI.getPoint(player).getPoints(attr.key)!! >= Coerce.toInteger(argument)) {
                                 FaithlPointAPI.getPoint(player).takeAttribute(attr.key, Coerce.toInteger(argument))
                                 FaithlPointAPI.getPoint(player).totalPoints -= Coerce.toInteger(argument)
-                                player.sendLang("Point-Took-From-Attr",argument)
+                                player.sendLang("Point-Took-From-Attr", argument)
                                 break
                             }
                         }
                     }
-                    sender.sendLang("Command-Take-Info",player.name,argument)
+                    sender.sendLang("Command-Take-Info", player.name, argument)
                 }
             }
         }
