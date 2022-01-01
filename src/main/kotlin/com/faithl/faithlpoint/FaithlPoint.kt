@@ -29,6 +29,7 @@ object FaithlPoint : Plugin() {
 
     @Config("settings.yml", migrate = true, autoReload = true)
     lateinit var setting: Configuration
+        private set
 
     val plugin by lazy { BukkitPlugin.getInstance() }
 
@@ -41,7 +42,11 @@ object FaithlPoint : Plugin() {
     override fun onEnable() {
         Loader.loadLevels()
         init()
-        MilimAPI.init("AttributePlus")
+        MilimAPI.init(setting.getString("Options.Attribute-Plugin"))
+    }
+
+    override fun onDisable() {
+        console().sendLang("Plugin-Disabled")
     }
 
     fun init() {

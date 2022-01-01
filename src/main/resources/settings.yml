@@ -1,4 +1,6 @@
 Options:
+  #AttributePlus/OriginAttribute/SX-Attribute
+  Attribute-Plugin: 'AttributePlus'
   #数据库配置
   Database:
     #MySQL,SQLite

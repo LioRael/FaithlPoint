@@ -10,6 +10,7 @@ import org.bukkit.entity.Player
 import taboolib.platform.util.sendLang
 
 class Point(val player: Player) {
+
     var totalPoints: Int
         get() = player.getTotalPoints()
         set(value) = player.setTotalPoints(value)
