@@ -8,6 +8,7 @@ import com.faithl.faithlpoint.util.JsonUtil
 import com.faithl.milim.MilimAPI
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
+import taboolib.common.env.RuntimeDependencies
 import taboolib.common.env.RuntimeDependency
 import taboolib.common.io.newFile
 import taboolib.common.platform.Plugin
@@ -24,7 +25,10 @@ import taboolib.module.ui.receptacle.Receptacle
 import taboolib.platform.BukkitPlugin
 import taboolib.platform.util.sendLang
 
-@RuntimeDependency(value = "com.alibaba:fastjson:1.2.79")
+@RuntimeDependencies(
+    RuntimeDependency(value = "com.alibaba:fastjson:1.2.79"),
+//    RuntimeDependency(value = "com.faithl:milim:1.0.1", repository = "http://mcsy.net:8081/repository/releases/")
+)
 object FaithlPoint : Plugin() {
 
     @Config("settings.yml", migrate = true, autoReload = true)
@@ -42,6 +46,7 @@ object FaithlPoint : Plugin() {
     override fun onEnable() {
         Loader.loadLevels()
         init()
+        checkUpdate()
         MilimAPI.init(setting.getString("Options.Attribute-Plugin"))
     }
 

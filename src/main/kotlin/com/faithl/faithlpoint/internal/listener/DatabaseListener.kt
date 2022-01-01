@@ -1,6 +1,7 @@
 package com.faithl.faithlpoint.internal.listener
 
 import com.faithl.faithlpoint.FaithlPoint
+import com.faithl.faithlpoint.FaithlPoint.checkUpdate
 import com.faithl.faithlpoint.api.FaithlPointAPI
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerKickEvent
@@ -18,6 +19,9 @@ object DatabaseListener {
             it.buildMenu(e.player)
         }
         FaithlPointAPI.updateAttribute(e.player)
+        if (e.player.isOp) {
+            checkUpdate(e.player)
+        }
     }
 
     @SubscribeEvent

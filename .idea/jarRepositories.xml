@@ -61,5 +61,25 @@
       <option name="name" value="maven" />
       <option name="url" value="https://repo.tabooproject.org/storages/public/releases/" />
     </remote-repository>
+    <remote-repository>
+      <option name="id" value="maven" />
+      <option name="name" value="maven" />
+      <option name="url" value="http://ptms.ink:8081/repository/releases/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="maven2" />
+      <option name="name" value="maven2" />
+      <option name="url" value="https://mcsy.net:8081/repository/releases/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="maven2" />
+      <option name="name" value="maven2" />
+      <option name="url" value="http://mcsy.net:8081/repository/releases/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="maven2" />
+      <option name="name" value="maven2" />
+      <option name="url" value="https://repo.tabooproject.org/repository/releases/" />
+    </remote-repository>
   </component>
 </project>

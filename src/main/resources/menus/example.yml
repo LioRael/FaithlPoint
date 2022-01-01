@@ -36,8 +36,7 @@ Item:
     AttributeTag: '战士'
     Lore:
       - '&b| 获得属性:'
-      - '&8| 物理伤害: {Attribute.物理伤害}'
-      - '&8| 燃烧几率: {Attribute.燃烧几率}'
+      - '&8| {attribute}'
       - '&b| 每点增加: '
       - '&8| &c2 &8点物理伤害'
       - '&8| &c2 &8点燃烧几率'
@@ -57,7 +56,7 @@ Item:
     AttributeTag: '法师'
     Lore:
       - '&b| 获得属性:'
-      - '&8| 冰冻几率: {Attribute.冰冻几率}'
+      - '&8| {attribute}'
       - '&b| 每点增加: '
       - '&8| &c2 &8点冰冻几率'
       - '&b| 使用说明:'

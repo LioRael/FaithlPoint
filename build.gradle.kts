@@ -1,7 +1,6 @@
 plugins {
     java
-    id("io.izzel.taboolib") version "1.33"
-    id("com.github.johnrengelman.shadow") version "7.1.2"
+    id("io.izzel.taboolib") version "1.34"
     kotlin("jvm") version "1.6.10"
 }
 
@@ -20,7 +19,6 @@ taboolib {
     classifier = null
     version = "6.0.7-6"
     description {
-        desc("兼容多种属性插件的加点插件")
         contributors {
             name("Leosouthey")
         }
@@ -38,7 +36,10 @@ taboolib {
 }
 
 repositories {
-    maven { url = uri("https://repo.tabooproject.org/storages/public/releases/") }
+    maven {
+        url = uri("http://mcsy.net:8081/repository/releases/")
+        isAllowInsecureProtocol = true
+    }
     maven { url = uri("https://maven.aliyun.com/nexus/content/groups/public/") }
     mavenCentral()
 }
@@ -49,7 +50,8 @@ dependencies {
     compileOnly("ink.ptms.core:v11800:11800:universal")
     compileOnly("com.alibaba:fastjson:1.2.79")
     compileOnly("org.jetbrains.kotlin:kotlin-stdlib:1.6.10")
-    implementation(fileTree("libs"))
+    taboo("com.faithl:milim:1.0.1")
+    compileOnly(fileTree("libs"))
 }
 
 tasks {
@@ -59,12 +61,6 @@ tasks {
     withType<Javadoc> {
         options.encoding = "UTF-8"
     }
-//    withType<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar>{
-////        archiveClassifier.set("")
-//    }
-//    build {
-//        dependsOn(shadowJar)
-//    }
 }
 
 configure<JavaPluginExtension> {
