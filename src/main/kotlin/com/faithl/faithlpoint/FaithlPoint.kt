@@ -75,13 +75,16 @@ object FaithlPoint : Plugin() {
             disablePlugin()
             return
         }
-        if (onlinePlayers().isNotEmpty())
-            for (player in onlinePlayers())
+        if (onlinePlayers().isNotEmpty()) {
+            for (player in onlinePlayers()) {
                 player.setupDataContainer()
-        if (Bukkit.getPluginManager().isPluginEnabled("AttributePlus"))
+            }
+        }
+        if (Bukkit.getPluginManager().isPluginEnabled("AttributePlus")) {
             console().sendLang("Plugin-Hooked", "AttributePlus")
-        else
+        } else {
             disablePlugin()
+        }
     }
 
     /**
@@ -97,15 +100,16 @@ object FaithlPoint : Plugin() {
         val version = Version(`object`.getString("version"))
         if (version > Version(pluginVersion)) {
             isOutDate = true
-            if (sender == null)
-                console().sendLang("Plugin-Update", pluginVersion, version)
-            else
+            if (sender == null) {
+                console().sendLang("Plugin-Update", pluginVersion, version.source)
+            } else {
                 sender.sendLang(
                     "Plugin-Update",
                     pluginVersion,
                     version.source,
                     "https://www.mcbbs.net/thread-1275680-1-1.html"
                 )
+            }
         }
     }
 
