@@ -36,10 +36,7 @@ taboolib {
 }
 
 repositories {
-    maven {
-        url = uri("http://mcsy.net:8081/repository/releases/")
-        isAllowInsecureProtocol = true
-    }
+    maven { url = uri("https://repo.tabooproject.org/repository/releases/") }
     maven { url = uri("https://maven.aliyun.com/nexus/content/groups/public/") }
     mavenCentral()
 }
