@@ -24,7 +24,7 @@ object CommandOpen {
                     if (menu?.permission != null && !player.hasPermission(menu.permission)) {
                         return@execute
                     }
-                    menu!!.buildMenu(player).open(player)
+                    menu?.buildMenu(player)?.open(player) ?: return@execute
                     sender.sendLang("Command-Open-Info")
                 }
             }

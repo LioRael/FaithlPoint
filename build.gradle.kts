@@ -15,9 +15,10 @@ taboolib {
     install("module-configuration")
     install("module-metrics")
     install("module-database")
+    install("module-kether")
     install("expansion-player-database")
     classifier = null
-    version = "6.0.7-16"
+    version = "6.0.7-23"
     description {
         contributors {
             name("Leosouthey")
@@ -38,6 +39,7 @@ taboolib {
 repositories {
     maven { url = uri("https://repo.tabooproject.org/repository/releases/") }
     maven { url = uri("https://maven.aliyun.com/nexus/content/groups/public/") }
+    maven { url = uri("https://mvnrepository.com/artifact/org.ow2.asm/asm") }
     mavenCentral()
 }
 
@@ -47,8 +49,8 @@ dependencies {
     compileOnly("ink.ptms.core:v11800:11800:universal")
     compileOnly("com.alibaba:fastjson:1.2.79")
     compileOnly("org.jetbrains.kotlin:kotlin-stdlib:1.6.10")
-    taboo("com.faithl:milim:1.0.1")
-    compileOnly(fileTree("libs"))
+    compileOnly("org.ow2.asm:asm:9.2")
+    compileOnly("com.faithl:milim:1.0.1")
 }
 
 tasks {

@@ -11,6 +11,7 @@ import taboolib.platform.util.sendLang
 import java.io.File
 
 object Loader {
+
     private val folder by lazy {
         FaithlPoint.menus.clear()
         val folder = File(FaithlPoint.plugin.dataFolder, "menus")
@@ -22,7 +23,7 @@ object Loader {
         folder
     }
 
-    fun loadLevels(sender: CommandSender = Bukkit.getConsoleSender()) {
+    fun loadMenus(sender: CommandSender = Bukkit.getConsoleSender()) {
         val files = mutableListOf<File>().also {
             it.addAll(filterMenuFiles(folder))
             it.addAll(FaithlPoint.setting.getStringList("Loader.Menu-Files").flatMap { filterMenuFiles(File(it)) })
@@ -37,8 +38,9 @@ object Loader {
         tasks.forEach {
             val conf = Configuration.loadFromFile(it)
             val tag = conf.getString("Tag")
-            if (FaithlPointAPI.getMenu(tag!!) == null)
+            if (FaithlPointAPI.getMenu(tag!!) == null) {
                 PointMenu(conf)
+            }
         }
         sender.sendLang("Menu-Loader-Loaded", FaithlPoint.menus.size, System.currentTimeMillis() - serializingTime)
     }

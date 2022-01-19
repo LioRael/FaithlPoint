@@ -2,6 +2,7 @@ package com.faithl.faithlpoint.internal.point
 
 import com.faithl.faithlpoint.FaithlPoint
 import com.faithl.faithlpoint.FaithlPoint.attributes
+import com.faithl.faithlpoint.api.FaithlPointAPI
 import com.faithl.faithlpoint.util.getPoints
 import com.faithl.faithlpoint.util.getTotalPoints
 import com.faithl.faithlpoint.util.setPoints
@@ -46,22 +47,30 @@ class Point(val player: Player) {
         }
     }
 
-    fun addAttribute(attribute: String, add: Int) {
+    fun addAttribute(attribute: String, add: Int): Boolean {
         if (getAvailablePoints() >= add) {
             points[attribute] = points.getOrPut(attribute) {
                 0
             } + add
-        } else
+        } else {
             player.sendLang("Point-Not-Enough")
+            return false
+        }
         save()
+        FaithlPointAPI.updateAttribute(player)
+        return true
     }
 
-    fun takeAttribute(attribute: String, value: Int) {
-        if ((points[attribute] ?: 0) - value >= 0)
+    fun takeAttribute(attribute: String, value: Int): Boolean {
+        if ((points[attribute] ?: 0) - value >= 0) {
             points[attribute] = (points[attribute] ?: 0) - value
-        else
+        } else {
             player.sendLang("Point-Not-Return")
+            return false
+        }
         save()
+        FaithlPointAPI.updateAttribute(player)
+        return true
     }
 
     private fun save() {

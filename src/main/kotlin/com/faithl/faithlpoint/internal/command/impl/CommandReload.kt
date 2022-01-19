@@ -10,6 +10,7 @@ import taboolib.module.lang.Language
 import taboolib.module.lang.sendLang
 
 object CommandReload {
+
     val command = subCommand {
         execute<ProxyCommandSender> { sender, _, _ ->
             for (player in onlinePlayers()){
@@ -22,8 +23,12 @@ object CommandReload {
             FaithlPoint.menus.clear()
             FaithlPoint.attributes.clear()
             FaithlPoint.init()
-            Loader.loadLevels(sender.cast())
+            Loader.loadMenus(sender.cast())
+            FaithlPoint.menus.forEach {
+                it.buildMenu(sender.cast())
+            }
             sender.sendLang("Plugin-Reloaded", pluginVersion,KotlinVersion.CURRENT.toString())
         }
     }
+
 }

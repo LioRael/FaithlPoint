@@ -27,6 +27,7 @@ import taboolib.platform.util.buildItem
  * @constructor Create empty Point menu
  */
 class PointMenu(private val conf: ConfigurationSection) {
+
     val tag: String? = conf.getString("Tag")
     val title: String? = conf.getString("Title")
     private val rows: Int = conf.getInt("Rows")
@@ -63,26 +64,53 @@ class PointMenu(private val conf: ConfigurationSection) {
                         val tag = conf.getString("Item.${it.key}.AttributeTag")
                         when (event.receptacleClickType) {
                             LEFT -> {
-                                FaithlPointAPI.getPoint(player).addAttribute(tag!!, 1)
-                                FaithlPointAPI.updateAttribute(player)
+                                if (conf.getBoolean("Item.${it.key}.Function.Left-Click", true)) {
+                                    if (FaithlPointAPI.condition(conf["Item.${it.key}.Condition.Left-Click"], player)
+                                            .get()
+                                    ) {
+                                        FaithlPointAPI.getPoint(player).addAttribute(tag!!, 1)
+                                    }
+                                }
                             }
                             RIGHT -> {
-                                FaithlPointAPI.getPoint(player).takeAttribute(tag!!, 1)
-                                FaithlPointAPI.updateAttribute(player)
+                                if (conf.getBoolean("Item.${it.key}.Function.Right-Click", true)) {
+                                    if (FaithlPointAPI.condition(conf["Item.${it.key}.Condition.Right-Click"], player)
+                                            .get()
+                                    ) {
+                                        FaithlPointAPI.getPoint(player).takeAttribute(tag!!, 1)
+                                    }
+                                }
                             }
                             SHIFT_LEFT -> {
-                                FaithlPointAPI.getPoint(player)
-                                    .addAttribute(tag!!, FaithlPointAPI.getPoint(player).getAvailablePoints())
-                                FaithlPointAPI.updateAttribute(player)
+                                if (conf.getBoolean("Item.${it.key}.Function.Shift-Left-Click", true)) {
+                                    if (FaithlPointAPI.condition(
+                                            conf["Item.${it.key}.Condition.Shift-Left-Click"],
+                                            player
+                                        ).get()
+                                    ) {
+                                        FaithlPointAPI.getPoint(player)
+                                            .addAttribute(tag!!, FaithlPointAPI.getPoint(player).getAvailablePoints())
+                                    }
+                                }
                             }
                             SHIFT_RIGHT -> {
-                                FaithlPointAPI.getPoint(player)
-                                    .takeAttribute(tag!!, FaithlPointAPI.getPoint(player).getPoints(tag)!!)
-                                FaithlPointAPI.updateAttribute(player)
+                                if (conf.getBoolean("Item.${it.key}.Function.Shift-Right-Click", true)) {
+                                    if (FaithlPointAPI.condition(
+                                            conf["Item.${it.key}.Condition.Shift-Right-Click"],
+                                            player
+                                        ).get()
+                                    ) {
+                                        FaithlPointAPI.getPoint(player)
+                                            .takeAttribute(tag!!, FaithlPointAPI.getPoint(player).getPoints(tag)!!)
+                                    }
+                                }
                             }
                             else -> {
-                                FaithlPointAPI.getPoint(player).addAttribute(tag!!, 1)
-                                FaithlPointAPI.updateAttribute(player)
+                                if (conf.getBoolean("Item.${it.key}.Function", true)) {
+                                    if (FaithlPointAPI.condition(conf["Item.${it.key}.Condition.Else"], player).get()) {
+                                        FaithlPointAPI.getPoint(player).addAttribute(tag!!, 1)
+                                    }
+                                }
                             }
                         }
                         val map = mutableMapOf(
@@ -176,7 +204,7 @@ class PointMenu(private val conf: ConfigurationSection) {
             val type = conf.getString("Item.${item}.Type")
             if (type == "Attribute") {
                 FaithlPoint.attributes[conf.getString("Item.${item}.AttributeTag")!!] =
-                    conf.getConfigurationSection("Item.${item}.Attributes")!!
+                    conf.getConfigurationSection("Item.${item}")!!
                 val map = mutableMapOf(
                     "{totalPoints}" to Coerce.toString(FaithlPointAPI.getPoint(player).totalPoints),
                     "{availablePoints}" to Coerce.toString(FaithlPointAPI.getPoint(player).getAvailablePoints()),

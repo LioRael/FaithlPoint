@@ -30,6 +30,14 @@ Item:
     Type: 'Attribute'
     Enchants:
       - 'DURABILITY:1'
+    Function:
+      Left-Click: true
+      Right-Click: true
+      Shift-Left-Click: true
+      Shift-Right-Click: true
+      Else: true
+    Condition:
+      Left-Click: 'all [ check type int *%fpoint_战士% <= 100 ]'
     Attributes:
       物理伤害: 2
       燃烧几率: 2

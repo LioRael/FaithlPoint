@@ -5,9 +5,14 @@ import com.faithl.faithlpoint.internal.display.PointMenu
 import com.faithl.faithlpoint.internal.point.Point
 import com.faithl.milim.MilimAPI
 import org.bukkit.entity.Player
-import taboolib.common.platform.Awake
+import taboolib.common.platform.function.adaptPlayer
 import taboolib.common.platform.function.submit
+import taboolib.common.util.asList
 import taboolib.common5.Coerce
+import taboolib.library.configuration.ConfigurationSection
+import taboolib.module.kether.KetherShell
+import taboolib.module.kether.printKetherErrorMessage
+import java.util.concurrent.CompletableFuture
 
 object FaithlPointAPI {
     fun getMenu(tag: String): PointMenu? {
@@ -33,15 +38,34 @@ object FaithlPointAPI {
             val map = HashMap<String, Array<Number>>()
             val points = getPoint(player).points
             FaithlPoint.attributes.forEach { (key, value) ->
-                value.getKeys(false).forEach {
-                    val args = value.getString(it)!!.split("-")
+                value.getConfigurationSection("Attributes")?.getKeys(false)?.forEach {
+                    val args = value.getString("Attributes.${it}")?.split("-")
                     map[it] = arrayOf(
-                        Coerce.toDouble(args[0]) * points[key]!!,
-                        Coerce.toDouble(args.getOrElse(1) { args[0] }) * points[key]!!
+                        Coerce.toDouble(args?.get(0)) * points[key]!!,
+                        Coerce.toDouble(args?.getOrElse(1) { args[0] }) * points[key]!!
                     )
                 }
             }
             MilimAPI.setAttribute("faithl_point", player, map)
+        }
+    }
+
+    fun condition(conf: Any?, player: Player): CompletableFuture<Boolean> {
+        return if (conf != null) {
+            try {
+                return KetherShell.eval(
+                    source = conf.asList(),
+                    sender = adaptPlayer(player),
+                    namespace = listOf("faithlpoint", "faithlpoint-internal")
+                ).thenApply { result ->
+                    Coerce.toBoolean(result)
+                }
+            } catch (e: Throwable) {
+                e.printKetherErrorMessage()
+                CompletableFuture.completedFuture(false)
+            }
+        } else {
+            CompletableFuture.completedFuture(true)
         }
     }
 }

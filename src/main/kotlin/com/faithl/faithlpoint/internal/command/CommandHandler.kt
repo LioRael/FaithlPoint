@@ -1,10 +1,7 @@
 package com.faithl.faithlpoint.internal.command
 
 import com.faithl.faithlpoint.FaithlPoint
-import com.faithl.faithlpoint.internal.command.impl.CommandAdd
-import com.faithl.faithlpoint.internal.command.impl.CommandOpen
-import com.faithl.faithlpoint.internal.command.impl.CommandReload
-import com.faithl.faithlpoint.internal.command.impl.CommandTake
+import com.faithl.faithlpoint.internal.command.impl.*
 import org.bukkit.command.CommandSender
 import taboolib.common.platform.command.*
 import taboolib.common.platform.function.adaptCommandSender
@@ -12,7 +9,7 @@ import taboolib.module.chat.TellrawJson
 import taboolib.platform.util.asLangText
 
 
-@CommandHeader(name = "faithlpoint", aliases = ["fpoint", "point"], permission = "faithlpoint.access")
+@CommandHeader(name = "faithlpoint", aliases = ["fpoint", "point"])
 object CommandHandler {
     @CommandBody(permission = "faithlpoint.reload")
     val reload = CommandReload.command
@@ -25,6 +22,9 @@ object CommandHandler {
 
     @CommandBody(permission = "faithlpoint.take")
     val take = CommandTake.command
+
+    @CommandBody(permissionDefault = PermissionDefault.TRUE)
+    val attribute = CommandAttribute.command
 
     @CommandBody(permission = "faithlpoint.access")
     val main = mainCommand {
@@ -80,6 +80,7 @@ object CommandHandler {
             proxySender.sendMessage("      §7$desc")
         }
         displayArg("open", sender.asLangText("Command-Open-Description"))
+        displayArg("attribute", sender.asLangText("Command-Attribute-Description"))
         displayArg("add", sender.asLangText("Command-Add-Description"))
         displayArg("take", sender.asLangText("Command-Take-Description"))
         displayArg("reload", sender.asLangText("Command-Reload-Description"))
