@@ -28,8 +28,8 @@ import taboolib.platform.util.sendLang
 @RuntimeDependencies(
     RuntimeDependency(value = "com.alibaba:fastjson:1.2.79"),
     RuntimeDependency(
-        value = "com.faithl:milim:1.0.1",
-        repository = "http://mcsy.net:8081/repository/releases/",
+        value = "com.faithl:milim:1.0.3",
+        repository = "https://repo.tabooproject.org/repository/releases/",
     )
 )
 object FaithlPoint : Plugin() {
@@ -50,7 +50,7 @@ object FaithlPoint : Plugin() {
         Loader.loadMenus()
         init()
         checkUpdate()
-        MilimAPI.init(setting.getString("Options.Attribute-Plugin"))
+        setting.getString("Options.Attribute-Plugin")?.let { MilimAPI.init(it) }
     }
 
     override fun onDisable() {
