@@ -4,8 +4,8 @@ import com.alibaba.fastjson.JSONObject
 import com.faithl.faithlpoint.internal.conf.Loader
 import com.faithl.faithlpoint.internal.display.PointMenu
 import com.faithl.faithlpoint.internal.point.Point
+import com.faithl.faithlpoint.milim.MilimAPI
 import com.faithl.faithlpoint.util.JsonUtil
-import com.faithl.milim.MilimAPI
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import taboolib.common.env.RuntimeDependencies
@@ -27,10 +27,10 @@ import taboolib.platform.util.sendLang
 
 @RuntimeDependencies(
     RuntimeDependency(value = "com.alibaba:fastjson:1.2.79"),
-    RuntimeDependency(
-        value = "com.faithl:milim:1.0.1",
-        repository = "http://mcsy.net:8081/repository/releases/",
-    )
+//    RuntimeDependency(
+//        value = "com.faithl:milim:1.0.2",
+//        repository = "http://mcsy.net:8081/repository/releases/",
+//    )
 )
 object FaithlPoint : Plugin() {
 
@@ -50,7 +50,7 @@ object FaithlPoint : Plugin() {
         Loader.loadMenus()
         init()
         checkUpdate()
-        MilimAPI.init(setting.getString("Options.Attribute-Plugin"))
+        setting.getString("Options.Attribute-Plugin")?.let { MilimAPI.init(it) }
     }
 
     override fun onDisable() {
