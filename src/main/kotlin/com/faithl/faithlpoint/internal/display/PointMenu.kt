@@ -234,8 +234,8 @@ class PointMenu(private val conf: ConfigurationSection) {
             for (s in conf.getStringList("Item.${item}.Enchants")) {
                 val enchant = s.split(":")[0]
                 val level = Coerce.toInteger(s.split(":")[1])
-                enchants[XEnchantment.valueOf(enchant).parseEnchantment()!!] =
-                    (enchants[XEnchantment.valueOf(enchant).parseEnchantment()!!] ?: 0) + level
+                enchants[XEnchantment.valueOf(enchant).enchant!!] =
+                    (enchants[XEnchantment.valueOf(enchant).enchant!!] ?: 0) + level
             }
         }
         )

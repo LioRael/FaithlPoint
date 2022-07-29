@@ -9,7 +9,6 @@ import taboolib.common.platform.function.adaptPlayer
 import taboolib.common.platform.function.submit
 import taboolib.common.util.asList
 import taboolib.common5.Coerce
-import taboolib.library.configuration.ConfigurationSection
 import taboolib.module.kether.KetherShell
 import taboolib.module.kether.printKetherErrorMessage
 import java.util.concurrent.CompletableFuture
@@ -35,18 +34,23 @@ object FaithlPointAPI {
 
     fun updateAttribute(player: Player) {
         submit {
-            val map = HashMap<String, Array<Number>>()
+            //val map = HashMap<String, Array<Number>>()
+            val list = arrayListOf<String>()
             val points = getPoint(player).points
             FaithlPoint.attributes.forEach { (key, value) ->
                 value.getConfigurationSection("Attributes")?.getKeys(false)?.forEach {
-                    val args = value.getString("Attributes.${it}")?.split("-")
-                    map[it] = arrayOf(
-                        Coerce.toDouble(args?.get(0)) * points[key]!!,
-                        Coerce.toDouble(args?.getOrElse(1) { args[0] }) * points[key]!!
-                    )
+                    //val args = value.getString("Attributes.${it}")?.split("-")
+//                    map[it] = arrayOf(
+//                        Coerce.toDouble(args?.get(0)) * points[key]!!,
+//                        Coerce.toDouble(args?.getOrElse(1) { args[0] }) * points[key]!!
+//                    )
+                    val args = value.getString("Attributes.$it")
+                    val num = Coerce.toDouble(args) * points[key]!!
+                    list.add("$it: $num")
                 }
             }
-            MilimAPI.setAttribute("faithl_point", player, map)
+
+            MilimAPI.setAttribute("FaithlPoint", player, list)
         }
     }
 
